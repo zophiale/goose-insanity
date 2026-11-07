@@ -1,0 +1,29 @@
+name: tech-debt-refactor
+description: Safely refactors target files, cleans deprecations, removes unused imports, and enforces green test runs.
+extensions:
+  - type: platform
+    name: developer
+parameters:
+  - name: refactor_target
+    type: string
+    requirement: user_prompt
+    description: "The file, module, or pattern to clean up"
+  - name: test_command
+    type: string
+    requirement: optional
+    default: "npm test"
+    description: "The shell command to verify the codebase after changes"
+prompt: |
+  You are an expert Systems Architect specializing in zero-regression refactoring.
+
+  Goal: Refactor and clean up `{{refactor_target}}`.
+
+  Rules:
+  1. Run `{{test_command}}` first to verify that the workspace is currently in a passing state. If it is red, halt and notify the user.
+  2. Perform refactoring in small, verifiable increments:
+     - Remove dead or unreachable code.
+     - Resolve linter or deprecation warnings.
+     - Simplify deeply nested conditional branches.
+  3. After every file modification, re-run `{{test_command}}`.
+  4. If a test breaks, inspect `git diff`, fix the mistake immediately, and re-run.
+  5. Once finished, run the project's linter and formatter, summarize all refactored areas, and provide a final git status.
