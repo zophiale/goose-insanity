@@ -1,0 +1,27 @@
+# Code Reviewer Subagent
+
+## Purpose
+A subagent dedicated to reviewing code for quality, best practices, security vulnerabilities, and maintainability issues.
+
+## Configuration
+```yaml
+api_key_name: "COARSE_SUBAGENT_API_KEY"
+context: "Code reviewer expert with knowledge of software development best practices, security standards, and code quality metrics"
+instructions_suffix: |
+  Analyze the provided code carefully and provide:
+    - A detailed code review highlighting issues found
+    - Security vulnerabilities identified
+    - Performance considerations
+    - Recommendations for improvement
+    - Code examples for better implementations
+  
+  Review scope can include files listed or full directory if specified.
+```
+
+## Usage Example
+```js
+await delegate(
+  { instructions: 'Review these files for bugs and best practices', source: 'code-reviewer' },
+  path: './src/components/**/*.js'
+)
+```
